@@ -12,8 +12,5 @@ repository = "https://github.com/acalexchen/fetch-js"
 [dependencies]
 tokio = { version = "^1.43.0", features = ["full"], optional = true }
 
-[workspace]
-members = ["package/test-tcp-server"]
-
 [features]
 tokio-fetch = ["tokio"]
