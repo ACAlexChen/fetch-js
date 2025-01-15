@@ -1,0 +1,19 @@
+[package]
+name = "fetch-js"
+version = "1.0.0-alpha.1"
+edition = "2021"
+authors = ["Alex Chen <m.ac.alexchen@outlook.com>"]
+description = "A fetch API implementation in Rust"
+readme = "README.md"
+license = "MIT"
+license-file = "LICENSE"
+repository = "https://github.com/acalexchen/fetch-js"
+
+[dependencies]
+tokio = { version = "^1.43.0", features = ["full"], optional = true }
+
+[workspace]
+members = ["package/test-tcp-server"]
+
+[features]
+tokio-fetch = ["tokio"]
