@@ -25,7 +25,7 @@ impl URL {
   /// use fetch_js::url::URL;
   /// let url = URL::new("https://user:pass@example.com:8080/path/to/file.html?query=string#hash");
   /// assert_eq!(url.get_href(), "https://user:pass@example.com:8080/path/to/file.html?query=string#hash");
-  /// assert_eq!(url.get_protocol(), "https");
+  /// assert_eq!(url.get_protocol(), "https:");
   /// ```
   pub fn new(url: &str) -> Self {
     let mut url = url.to_string();
@@ -110,7 +110,54 @@ impl URL {
 
 impl URL {
   pub fn get_href(&self) -> String {
-    todo!()
+    let mut href = String::new();
+    href.push_str(&self.protocol);
+    href.push_str("//");
+    if let Some(ref username) = self.username {
+      href.push_str(username);
+      if let Some(ref password) = self.password {
+        href.push(':');
+        href.push_str(password);
+      }
+      href.push('@');
+    }
+    href.push_str(&self.hostname);
+    if let Some(ref port) = self.port {
+      href.push(':');
+      href.push_str(port);
+    }
+    href.push_str(&self.pathname);
+    if !self.search_params.is_empty() {
+      href.push('?');
+      href.push_str(&self.search_params.to_string());
+    }
+    if let Some(ref hash) = self.hash {
+      href.push_str(hash);
+    }
+    href
+  }
+  
+  pub fn set_href(&mut self, href: &str) -> () {
+    let mut href = href.to_string();
+    self.protocol = intercept_protocol(&mut href);
+    self.username = intercept_username(&mut href);
+    self.password = intercept_password(&mut href);
+    self.hostname = intercept_hostname(&mut href);
+    self.port = intercept_port(&mut href);
+    self.pathname = intercept_pathname(&mut href);
+    self.search_params = intercept_search_params(&mut href);
+    self.hash = intercept_hash(&mut href);
   }
 }
 
+#[cfg(test)]
+mod tests {
+  use super::*;
+  
+  #[test]
+  fn test_get_href() {
+    let url = "https://user:pass@example.com:8080/path/to/file.html?query=string#hash".to_string();
+    let url = URL::new(&url);
+    assert_eq!(url.get_href(), "https://user:pass@example.com:8080/path/to/file.html?query=string#hash");
+  }
+}

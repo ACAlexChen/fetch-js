@@ -35,6 +35,12 @@ impl URLSearchParams {
 }
 
 impl URLSearchParams {
+  pub fn is_empty(&self) -> bool {
+    self.params.is_empty()
+  }
+}
+
+impl URLSearchParams {
   /// 获取查询参数的值
   ///
   /// # Example

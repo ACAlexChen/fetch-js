@@ -72,7 +72,7 @@ pub(in super) fn intercept_port(url: &mut String) -> Option<String> {
               None => url.len()
             }
           }
-        } 
+        }
       },
     }
   } else {
@@ -138,7 +138,7 @@ mod tests {
     let pathname = intercept_pathname(&mut url);
     let search_params = intercept_search_params(&mut url);
     let hash = intercept_hash(&mut url);
-    
+
     assert_eq!(protocol, "https:");
     assert_eq!(username, Some("user".to_string()));
     assert_eq!(password, Some("pass".to_string()));
@@ -148,7 +148,7 @@ mod tests {
     assert_eq!(search_params.to_string(), "query=string");
     assert_eq!(hash, Some("#hash".to_string()));
   }
-  
+
   #[test]
   fn without_protocol() {
     let mut url = "example.com:8080/path/to/file.html?query=string#hash".to_string();
@@ -170,7 +170,7 @@ mod tests {
     assert_eq!(search_params.to_string(), "query=string");
     assert_eq!(hash, Some("#hash".to_string()));
   }
-  
+
   #[test]
   fn without_username_and_password() {
     let mut url = "https://example.com:8080/path/to/file.html?query=string#hash".to_string();
@@ -192,7 +192,7 @@ mod tests {
     assert_eq!(search_params.to_string(), "query=string");
     assert_eq!(hash, Some("#hash".to_string()));
   }
-  
+
   #[test]
   fn without_port() {
     let mut url = "https://user:pass@example.com/path/to/file.html?query=string#hash".to_string();
@@ -214,7 +214,7 @@ mod tests {
     assert_eq!(search_params.to_string(), "query=string");
     assert_eq!(hash, Some("#hash".to_string()));
   }
-  
+
   #[test]
   fn without_pathname() {
     let mut url = "https://user:pass@example.com:8080?query=string#hash".to_string();
@@ -236,7 +236,7 @@ mod tests {
     assert_eq!(search_params.to_string(), "query=string");
     assert_eq!(hash, Some("#hash".to_string()));
   }
-  
+
   #[test]
   fn without_search_params() {
     let mut url = "https://user:pass@example.com:8080/path/to/file.html#hash".to_string();
@@ -258,7 +258,7 @@ mod tests {
     assert_eq!(search_params.to_string(), "");
     assert_eq!(hash, Some("#hash".to_string()));
   }
-  
+
   #[test]
   fn without_hash() {
     let mut url = "https://user:pass@example.com:8080/path/to/file.html?query=string".to_string();
